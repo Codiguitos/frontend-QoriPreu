@@ -11,6 +11,13 @@ import Calendario from '../pages/Dashboard/Calendario/Calendario'
 import MisNotas from '../pages/Dashboard/MisNotas/MisNotas'
 import Configuracion from '../pages/Dashboard/Configuracion/Configuracion'
 import CursoId from '../pages/Dashboard/CursoId/CursoId'
+import DashboardDocenteLayout from '../components/templates/DashboardDocenteLayout'
+import InicioDocente from '../pages/DashboardDocente/Inicio/Inicio'
+import MisCursosDocente from '../pages/DashboardDocente/MisCursos/MisCursos'
+import Estudiantes from '../pages/DashboardDocente/Estudiantes/Estudiantes'
+import Asistencia from '../pages/DashboardDocente/Asistencia/Asistencia'
+import ConfiguracionDocente from '../pages/DashboardDocente/Configuracion/Configuracion'
+import CursoIdDocente from '../pages/DashboardDocente/CursoId/CursoId'
 const AppRoutes = () => {
   const routes = createBrowserRouter([
     {
@@ -58,6 +65,36 @@ const AppRoutes = () => {
         {
           path:`:slug`,
           element:<CursoId/>
+        }
+      ]
+    },
+    {
+      path:"/docente",
+      element:<DashboardDocenteLayout/>,
+      children:[
+        {
+          index:true,
+          element:<InicioDocente/>
+        },
+        {
+          path:"mis-cursos",
+          element:<MisCursosDocente/>
+        },
+        {
+          path:"estudiantes",
+          element:<Estudiantes/>
+        },
+        {
+          path:"asistencia",
+          element:<Asistencia/>
+        },
+        {
+          path:"configuracion",
+          element:<ConfiguracionDocente/>
+        },
+        {
+          path:":slug",
+          element:<CursoIdDocente/>
         }
       ]
     }
