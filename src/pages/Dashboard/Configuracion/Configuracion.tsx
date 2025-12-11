@@ -1,542 +1,720 @@
 import React, { useState } from 'react';
-import { Clock, Video, MapPin, ChevronLeft, ChevronRight, Bell, Download, Plus, Zap, Target } from 'lucide-react';
+import { User, Bell, Lock, Palette, Globe, Mail, Smartphone, Shield, Eye, EyeOff, Camera, Save, AlertCircle, Check, Moon, Sun, Monitor } from 'lucide-react';
 
-interface Clase {
-  id: string;
-  curso: string;
-  hora: string;
-  horaInicio: number;
-  horaFin: number;
-  duracion: number;
-  docente: string;
-  ubicacion: string;
-  tipo: 'presencial' | 'virtual' | 'hibrido';
-  icon: string;
-  gradiente: string;
-  enlace?: string;
-  estudiantes?: number;
+interface UserProfile {
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  dni: string;
+  direccion: string;
+  ciudad: string;
+  foto: string;
 }
 
-interface DiaClases {
-  [key: string]: Clase[];
+interface NotificationSettings {
+  emailNuevasClases: boolean;
+  emailTareas: boolean;
+  emailNotas: boolean;
+  pushNuevasClases: boolean;
+  pushTareas: boolean;
+  pushRecordatorios: boolean;
+  smsRecordatorios: boolean;
 }
 
-export default function Configuración() {
-  const [vistaActual, setVistaActual] = useState<'semana' | 'dia' | 'mes'>('semana');
-  const [diaSeleccionado, setDiaSeleccionado] = useState<number>(0);
+interface PrivacySettings {
+  perfilPublico: boolean;
+  mostrarEmail: boolean;
+  mostrarTelefono: boolean;
+  mostrarNotas: boolean;
+}
 
-  const horario: DiaClases = {
-    lunes: [
-      {
-        id: '1',
-        curso: 'Matemática Avanzada',
-        hora: '08:00 - 10:00',
-        horaInicio: 8,
-        horaFin: 10,
-        duracion: 2,
-        docente: 'Prof. Juan Pérez',
-        ubicacion: 'Aula 101 - Edificio A',
-        tipo: 'presencial',
-        icon: '📐',
-        gradiente: 'from-blue-600 via-blue-500 to-cyan-400',
-        estudiantes: 35
-      },
-      {
-        id: '2',
-        curso: 'Física Cuántica',
-        hora: '15:00 - 17:00',
-        horaInicio: 15,
-        horaFin: 17,
-        duracion: 2,
-        docente: 'Prof. Carlos Mendoza',
-        ubicacion: 'Laboratorio 3',
-        tipo: 'presencial',
-        icon: '⚛️',
-        gradiente: 'from-purple-600 via-pink-500 to-rose-400',
-        estudiantes: 28
-      }
-    ],
-    martes: [
-      {
-        id: '3',
-        curso: 'Química Orgánica',
-        hora: '09:00 - 11:00',
-        horaInicio: 9,
-        horaFin: 11,
-        duracion: 2,
-        docente: 'Prof. Ana Torres',
-        ubicacion: 'Lab Química 2',
-        tipo: 'presencial',
-        icon: '🧪',
-        gradiente: 'from-green-600 via-emerald-500 to-teal-400',
-        estudiantes: 30
-      },
-      {
-        id: '4',
-        curso: 'Comunicación Digital',
-        hora: '14:00 - 16:00',
-        horaInicio: 14,
-        horaFin: 16,
-        duracion: 2,
-        docente: 'Prof. María García',
-        ubicacion: 'Google Meet',
-        tipo: 'virtual',
-        icon: '📝',
-        gradiente: 'from-orange-600 via-amber-500 to-yellow-400',
-        enlace: 'https://meet.google.com/abc-defg-hij',
-        estudiantes: 40
-      }
-    ],
-    miercoles: [
-      {
-        id: '5',
-        curso: 'Matemática Avanzada',
-        hora: '10:00 - 12:00',
-        horaInicio: 10,
-        horaFin: 12,
-        duracion: 2,
-        docente: 'Prof. Juan Pérez',
-        ubicacion: 'Zoom Meeting',
-        tipo: 'virtual',
-        icon: '📐',
-        gradiente: 'from-blue-600 via-blue-500 to-cyan-400',
-        enlace: 'https://zoom.us/j/123456789',
-        estudiantes: 35
-      },
-      {
-        id: '6',
-        curso: 'Historia del Perú',
-        hora: '16:00 - 18:00',
-        horaInicio: 16,
-        horaFin: 18,
-        duracion: 2,
-        docente: 'Prof. Luis Vargas',
-        ubicacion: 'Aula 205',
-        tipo: 'presencial',
-        icon: '🏛️',
-        gradiente: 'from-red-600 via-orange-500 to-amber-400',
-        estudiantes: 32
-      }
-    ],
-    jueves: [
-      {
-        id: '7',
-        curso: 'Biología Molecular',
-        hora: '08:00 - 10:00',
-        horaInicio: 8,
-        horaFin: 10,
-        duracion: 2,
-        docente: 'Prof. Rosa Chávez',
-        ubicacion: 'Lab Biología',
-        tipo: 'presencial',
-        icon: '🧬',
-        gradiente: 'from-teal-600 via-cyan-500 to-blue-400',
-        estudiantes: 25
-      },
-      {
-        id: '8',
-        curso: 'Física Cuántica',
-        hora: '13:00 - 15:00',
-        horaInicio: 13,
-        horaFin: 15,
-        duracion: 2,
-        docente: 'Prof. Carlos Mendoza',
-        ubicacion: 'Microsoft Teams',
-        tipo: 'virtual',
-        icon: '⚛️',
-        gradiente: 'from-purple-600 via-pink-500 to-rose-400',
-        enlace: 'https://teams.microsoft.com/...',
-        estudiantes: 28
-      }
-    ],
-    viernes: [
-      {
-        id: '9',
-        curso: 'Química Orgánica',
-        hora: '09:00 - 11:00',
-        horaInicio: 9,
-        horaFin: 11,
-        duracion: 2,
-        docente: 'Prof. Ana Torres',
-        ubicacion: 'Aula 102',
-        tipo: 'presencial',
-        icon: '🧪',
-        gradiente: 'from-green-600 via-emerald-500 to-teal-400',
-        estudiantes: 30
-      },
-      {
-        id: '10',
-        curso: 'Comunicación Digital',
-        hora: '15:00 - 17:00',
-        horaInicio: 15,
-        horaFin: 17,
-        duracion: 2,
-        docente: 'Prof. María García',
-        ubicacion: 'Zoom',
-        tipo: 'virtual',
-        icon: '📝',
-        gradiente: 'from-orange-600 via-amber-500 to-yellow-400',
-        enlace: 'https://zoom.us/j/987654321',
-        estudiantes: 40
-      }
-    ],
-    sabado: [
-      {
-        id: '11',
-        curso: 'Historia del Perú',
-        hora: '10:00 - 12:00',
-        horaInicio: 10,
-        horaFin: 12,
-        duracion: 2,
-        docente: 'Prof. Luis Vargas',
-        ubicacion: 'Aula 301',
-        tipo: 'presencial',
-        icon: '🏛️',
-        gradiente: 'from-red-600 via-orange-500 to-amber-400',
-        estudiantes: 32
-      }
-    ]
-  };
+interface AppearanceSettings {
+  tema: 'claro' | 'oscuro' | 'auto';
+  colorPrimario: string;
+  tamanoFuente: 'pequeño' | 'mediano' | 'grande';
+}
 
-  const dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
-  const diasDisplay = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-  const diasCompletos = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  const horasDia = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+export default function Configuracion() {
+  const [seccionActiva, setSeccionActiva] = useState<string>('perfil');
+  const [mostrarPassword, setMostrarPassword] = useState<boolean>(false);
+  const [guardando, setGuardando] = useState<boolean>(false);
+  const [mostrado, setMostrado] = useState<boolean>(false);
 
-  const totalClases = Object.values(horario).flat().length;
-  const clasesVirtuales = Object.values(horario).flat().filter(c => c.tipo === 'virtual').length;
-  const clasesPresenciales = Object.values(horario).flat().filter(c => c.tipo === 'presencial').length;
+  const [perfil, setPerfil] = useState<UserProfile>({
+    nombre: 'Juan',
+    apellido: 'Díaz Mendoza',
+    email: 'juan.diaz@email.com',
+    telefono: '+51 987 654 321',
+    dni: '12345678',
+    direccion: 'Av. La Cultura 1234',
+    ciudad: 'Cusco',
+    foto: ''
+  });
 
-  const getClaseEnHora = (dia: string, hora: number): Clase | null => {
-    const clases = horario[dia] || [];
-    return clases.find(clase => hora >= clase.horaInicio && hora < clase.horaFin) || null;
-  };
+  const [notificaciones, setNotificaciones] = useState<NotificationSettings>({
+    emailNuevasClases: true,
+    emailTareas: true,
+    emailNotas: true,
+    pushNuevasClases: true,
+    pushTareas: true,
+    pushRecordatorios: true,
+    smsRecordatorios: false
+  });
 
-  const calcularPosicion = (horaInicio: number, duracion: number) => {
-    const inicio = (horaInicio - 7) * 80;
-    const altura = duracion * 80;
-    return { top: inicio, height: altura };
+  const [privacidad, setPrivacidad] = useState<PrivacySettings>({
+    perfilPublico: false,
+    mostrarEmail: false,
+    mostrarTelefono: false,
+    mostrarNotas: true
+  });
+
+  const [apariencia, setApariencia] = useState<AppearanceSettings>({
+    tema: 'oscuro',
+    colorPrimario: '#00A676',
+    tamanoFuente: 'mediano'
+  });
+
+  const secciones = [
+    { id: 'perfil', nombre: 'Perfil', icono: User },
+    { id: 'notificaciones', nombre: 'Notificaciones', icono: Bell },
+    { id: 'seguridad', nombre: 'Seguridad', icono: Lock },
+    { id: 'apariencia', nombre: 'Apariencia', icono: Palette },
+    { id: 'privacidad', nombre: 'Privacidad', icono: Shield }
+  ];
+
+  const coloresPrimarios = [
+    { nombre: 'Verde QoriPreu', color: '#00A676' },
+    { nombre: 'Azul', color: '#3B82F6' },
+    { nombre: 'Morado', color: '#8B5CF6' },
+    { nombre: 'Rosa', color: '#EC4899' },
+    { nombre: 'Naranja', color: '#F59E0B' }
+  ];
+
+  const handleGuardar = () => {
+    setGuardando(true);
+    setTimeout(() => {
+      setGuardando(false);
+      setMostrado(true);
+      setTimeout(() => setMostrado(false), 3000);
+    }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0e0d] via-[#0d1512] to-[#0a0e0d] p-6">
-      <div className="max-w-[1600px] mx-auto">
-        {/* Hero Header */}
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-5xl font-bold text-gray-100 mb-2 flex items-center gap-3">
-                <span className="text-5xl">📅</span>
-                Mi Calendario
-              </h1>
-              <p className="text-xl text-gray-400">Organiza tu semana académica de forma inteligente</p>
-            </div>
-            <div className="flex gap-3">
-              <button className="px-6 py-3 bg-[#0d1512] border border-gray-800 rounded-xl text-gray-100 font-semibold hover:border-[#006B4B] transition-all flex items-center gap-2">
-                <Plus size={20} />
-                Nueva Clase
-              </button>
-              <button className="px-6 py-3 bg-gradient-to-r from-[#006B4B] to-[#00A676] text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-[#006B4B]/30 transition-all flex items-center gap-2">
-                <Download size={20} />
-                Exportar
-              </button>
-            </div>
-          </div>
-
-          {/* Stats Cards Row */}
-          <div className="grid grid-cols-5 gap-4">
-            <div className="bg-gradient-to-br from-[#006B4B] to-[#00A676] rounded-2xl p-5 relative overflow-hidden">
-              <div className="absolute top-0 right-0 text-6xl opacity-10">📚</div>
-              <div className="relative z-10">
-                <p className="text-white/80 text-sm mb-1">Total Clases</p>
-                <p className="text-4xl font-bold text-white">{totalClases}</p>
-                <p className="text-white/60 text-xs mt-1">Esta semana</p>
-              </div>
-            </div>
-
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                  <MapPin className="text-blue-400" size={20} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Presenciales</p>
-                  <p className="text-3xl font-bold text-gray-100">{clasesPresenciales}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                  <Video className="text-purple-400" size={20} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Virtuales</p>
-                  <p className="text-3xl font-bold text-gray-100">{clasesVirtuales}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                  <Zap className="text-green-400" size={20} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Horas/Semana</p>
-                  <p className="text-3xl font-bold text-gray-100">22h</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                  <Target className="text-orange-400" size={20} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Asistencia</p>
-                  <p className="text-3xl font-bold text-gray-100">94%</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h1 className="text-5xl font-bold text-gray-100 mb-2 flex items-center gap-3">
+            <span className="text-5xl">⚙️</span>
+            Configuración
+          </h1>
+          <p className="text-xl text-gray-400">Personaliza tu experiencia en QoriPreu</p>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Calendar Grid - 3 columns */}
-          <div className="xl:col-span-3">
-            <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
-              {/* Calendar Controls */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <h2 className="text-2xl font-bold text-gray-100">Semana Actual</h2>
-                  <div className="flex items-center gap-2">
-                    <button className="p-2 bg-[#0a0e0d] hover:bg-[#006B4B] rounded-lg transition-all">
-                      <ChevronLeft className="text-gray-400" size={20} />
+        {/* Success Alert */}
+        {mostrado && (
+          <div className="mb-6 bg-green-500/20 border border-green-500/30 rounded-2xl p-4 flex items-center gap-3 animate-in">
+            <Check className="text-green-400" size={24} />
+            <p className="text-green-400 font-semibold">¡Cambios guardados exitosamente!</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar Navigation */}
+          <div className="lg:col-span-1">
+            <div className="bg-[#0d1512] rounded-2xl p-4 border border-gray-800 sticky top-6">
+              <nav className="space-y-2">
+                {secciones.map((seccion) => {
+                  const Icon = seccion.icono;
+                  return (
+                    <button
+                      key={seccion.id}
+                      onClick={() => setSeccionActiva(seccion.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all ${
+                        seccionActiva === seccion.id
+                          ? 'bg-gradient-to-r from-[#006B4B] to-[#00A676] text-white'
+                          : 'text-gray-400 hover:bg-[#0a0e0d] hover:text-gray-200'
+                      }`}
+                    >
+                      <Icon size={20} />
+                      <span>{seccion.nombre}</span>
                     </button>
-                    <span className="px-4 py-2 bg-[#0a0e0d] rounded-lg text-gray-100 font-semibold">
-                      7 - 13 Dic, 2025
-                    </span>
-                    <button className="p-2 bg-[#0a0e0d] hover:bg-[#006B4B] rounded-lg transition-all">
-                      <ChevronRight className="text-gray-400" size={20} />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button className="px-4 py-2 bg-[#006B4B] text-white rounded-lg font-semibold">
-                    Semana
-                  </button>
-                  <button className="px-4 py-2 bg-[#0a0e0d] text-gray-400 rounded-lg hover:text-gray-200">
-                    Día
-                  </button>
-                  <button className="px-4 py-2 bg-[#0a0e0d] text-gray-400 rounded-lg hover:text-gray-200">
-                    Mes
-                  </button>
-                </div>
-              </div>
-
-              {/* Modern Timeline View */}
-              <div className="relative">
-                {/* Days Header */}
-                <div className="grid grid-cols-7 gap-3 mb-4">
-                  <div className="text-center py-2"></div>
-                  {diasCompletos.map((dia, idx) => (
-                    <div key={idx} className="bg-[#0a0e0d] rounded-xl p-3 text-center border border-gray-800">
-                      <p className="font-bold text-gray-100 text-sm">{dia}</p>
-                      <p className="text-xs text-gray-500 mt-1">{8 + idx} Dic</p>
-                      <div className="mt-2 flex justify-center">
-                        <div className="w-8 h-8 bg-gradient-to-br from-[#006B4B] to-[#00A676] rounded-full flex items-center justify-center text-white text-xs font-bold">
-                          {horario[dias[idx]]?.length || 0}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Timeline Grid */}
-                <div className="overflow-x-auto">
-                  <div style={{ minWidth: '1100px' }}>
-                    {horasDia.map((hora) => (
-                      <div key={hora} className="grid grid-cols-7 gap-3 mb-2">
-                        {/* Time Label */}
-                        <div className="flex items-start justify-center pt-2">
-                          <span className="text-sm font-bold text-gray-400">
-                            {hora}:00
-                          </span>
-                        </div>
-
-                        {/* Day Cells */}
-                        {dias.map((dia) => {
-                          const clase = getClaseEnHora(dia, hora);
-                          
-                          if (clase && clase.horaInicio === hora) {
-                            return (
-                              <div
-                                key={dia}
-                                className={`relative rounded-2xl overflow-hidden cursor-pointer group`}
-                                style={{ 
-                                  height: `${clase.duracion * 80}px`,
-                                  gridRow: `span 1`
-                                }}
-                              >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${clase.gradiente} p-4`}>
-                                  {/* Card Content */}
-                                  <div className="relative h-full flex flex-col justify-between">
-                                    <div>
-                                      <div className="flex items-center justify-between mb-2">
-                                        <span className="text-3xl">{clase.icon}</span>
-                                        <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2 py-1 rounded-full">
-                                          {clase.tipo === 'virtual' ? (
-                                            <Video size={12} className="text-white" />
-                                          ) : (
-                                            <MapPin size={12} className="text-white" />
-                                          )}
-                                          <span className="text-xs text-white font-semibold">
-                                            {clase.tipo === 'virtual' ? 'Virtual' : 'Presencial'}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <h4 className="font-bold text-white text-sm mb-1 leading-tight">
-                                        {clase.curso}
-                                      </h4>
-                                      <p className="text-white/80 text-xs mb-1">{clase.hora}</p>
-                                      <p className="text-white/70 text-xs truncate">{clase.ubicacion}</p>
-                                    </div>
-                                    
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-white/80 text-xs">{clase.docente}</span>
-                                      {clase.tipo === 'virtual' && (
-                                        <button className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1 rounded-full text-xs text-white font-semibold transition-all">
-                                          Unirse
-                                        </button>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Hover Overlay */}
-                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all"></div>
-                                </div>
-                              </div>
-                            );
-                          }
-                          
-                          if (!clase || clase.horaInicio !== hora) {
-                            return (
-                              <div 
-                                key={dia} 
-                                className="bg-[#0a0e0d]/50 rounded-xl border border-gray-800/50 h-20"
-                              ></div>
-                            );
-                          }
-                          
-                          return null;
-                        })}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Legend */}
-              <div className="flex items-center gap-6 mt-6 pt-6 border-t border-gray-800">
-                <span className="text-sm text-gray-400 font-semibold">Modalidad:</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Presencial</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Virtual</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-300">Híbrido</span>
-                </div>
-              </div>
+                  );
+                })}
+              </nav>
             </div>
           </div>
 
-          {/* Right Sidebar - 1 column */}
-          <div className="space-y-6">
-            {/* Próxima Clase */}
-            <div className="bg-gradient-to-br from-[#006B4B] to-[#00A676] rounded-2xl p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 text-8xl opacity-10">⏰</div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-3">
-                  <Clock className="text-white" size={20} />
-                  <span className="text-white/80 font-semibold text-sm">PRÓXIMA CLASE</span>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Matemática</h3>
-                <p className="text-white/90 mb-4">Hoy a las 8:00 AM</p>
-                <button className="w-full bg-white text-[#006B4B] py-3 rounded-xl font-bold hover:shadow-lg transition-all">
-                  Ver Detalles
-                </button>
-              </div>
-            </div>
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            {/* Perfil */}
+            {seccionActiva === 'perfil' && (
+              <div className="space-y-6">
+                <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-6">Información Personal</h2>
 
-            {/* Clases de Hoy */}
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <h3 className="text-lg font-bold text-gray-100 mb-4">Clases de Hoy</h3>
-              <div className="space-y-3">
-                {horario.lunes.slice(0, 2).map((clase) => (
-                  <div key={clase.id} className="bg-[#0a0e0d] rounded-xl p-4 border border-gray-800 hover:border-[#006B4B] transition-all cursor-pointer">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-2xl">{clase.icon}</span>
-                      <div className="flex-1">
-                        <p className="font-bold text-gray-100 text-sm">{clase.curso}</p>
-                        <p className="text-xs text-gray-400">{clase.hora}</p>
+                  {/* Avatar Section */}
+                  <div className="flex items-center gap-6 mb-8 pb-8 border-b border-gray-800">
+                    <div className="relative">
+                      <div className="w-32 h-32 bg-gradient-to-br from-[#006B4B] to-[#00A676] rounded-full flex items-center justify-center text-white text-4xl font-bold">
+                        JD
                       </div>
+                      <button className="absolute bottom-0 right-0 w-10 h-10 bg-[#00A676] rounded-full flex items-center justify-center hover:bg-[#00d494] transition-all">
+                        <Camera className="text-white" size={20} />
+                      </button>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      {clase.tipo === 'virtual' ? (
-                        <Video size={12} />
-                      ) : (
-                        <MapPin size={12} />
-                      )}
-                      <span>{clase.ubicacion}</span>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-100">{perfil.nombre} {perfil.apellido}</h3>
+                      <p className="text-gray-400 mb-3">Estudiante • Plan Ordinario</p>
+                      <button className="text-[#00A676] hover:text-[#00d494] font-semibold text-sm">
+                        Cambiar foto de perfil
+                      </button>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Quick Stats */}
-            <div className="bg-[#0d1512] rounded-2xl p-5 border border-gray-800">
-              <h3 className="text-lg font-bold text-gray-100 mb-4">Resumen</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Horas esta semana</span>
-                  <span className="text-2xl font-bold text-[#00A676]">22h</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Clases completadas</span>
-                  <span className="text-2xl font-bold text-gray-100">5/11</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Asistencia</span>
-                  <span className="text-2xl font-bold text-[#FFB800]">94%</span>
+                  {/* Form Grid */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Nombres</label>
+                      <input
+                        type="text"
+                        value={perfil.nombre}
+                        onChange={(e) => setPerfil({ ...perfil, nombre: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Apellidos</label>
+                      <input
+                        type="text"
+                        value={perfil.apellido}
+                        onChange={(e) => setPerfil({ ...perfil, apellido: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Email</label>
+                      <input
+                        type="email"
+                        value={perfil.email}
+                        onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Teléfono</label>
+                      <input
+                        type="tel"
+                        value={perfil.telefono}
+                        onChange={(e) => setPerfil({ ...perfil, telefono: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">DNI</label>
+                      <input
+                        type="text"
+                        value={perfil.dni}
+                        onChange={(e) => setPerfil({ ...perfil, dni: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Ciudad</label>
+                      <input
+                        type="text"
+                        value={perfil.ciudad}
+                        onChange={(e) => setPerfil({ ...perfil, ciudad: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-gray-400 font-semibold mb-2 text-sm">Dirección</label>
+                      <input
+                        type="text"
+                        value={perfil.direccion}
+                        onChange={(e) => setPerfil({ ...perfil, direccion: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Alert */}
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5">
-              <div className="flex items-start gap-3">
-                <Bell className="text-yellow-400 flex-shrink-0 mt-1" size={20} />
-                <div>
-                  <h4 className="font-bold text-yellow-400 mb-1">Recordatorio</h4>
-                  <p className="text-sm text-gray-300">
-                    Tu clase virtual de Comunicación comienza en 30 minutos
-                  </p>
-                  <button className="mt-3 bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all">
-                    Unirse Ahora
-                  </button>
+            {/* Notificaciones */}
+            {seccionActiva === 'notificaciones' && (
+              <div className="space-y-6">
+                <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-2">Preferencias de Notificaciones</h2>
+                  <p className="text-gray-400 mb-6">Configura cómo y cuándo quieres recibir notificaciones</p>
+
+                  {/* Email Notifications */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <Mail className="text-blue-400" size={20} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-100">Notificaciones por Email</h3>
+                    </div>
+                    <div className="space-y-4 ml-13">
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Nuevas clases programadas</p>
+                          <p className="text-sm text-gray-400">Recibe un email cuando se programe una nueva clase</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.emailNuevasClases}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, emailNuevasClases: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Tareas y trabajos</p>
+                          <p className="text-sm text-gray-400">Notificaciones sobre tareas asignadas y fechas límite</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.emailTareas}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, emailTareas: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Notas y calificaciones</p>
+                          <p className="text-sm text-gray-400">Recibe emails cuando se publiquen tus calificaciones</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.emailNotas}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, emailNotas: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Push Notifications */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Bell className="text-purple-400" size={20} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-100">Notificaciones Push</h3>
+                    </div>
+                    <div className="space-y-4 ml-13">
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Recordatorios de clases</p>
+                          <p className="text-sm text-gray-400">15 minutos antes de cada clase</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.pushRecordatorios}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, pushRecordatorios: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Tareas pendientes</p>
+                          <p className="text-sm text-gray-400">Recordatorios sobre tareas próximas a vencer</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.pushTareas}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, pushTareas: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SMS Notifications */}
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <Smartphone className="text-green-400" size={20} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-100">Notificaciones SMS</h3>
+                    </div>
+                    <div className="space-y-4 ml-13">
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div>
+                          <p className="font-semibold text-gray-100">Recordatorios importantes</p>
+                          <p className="text-sm text-gray-400">Solo para eventos críticos como exámenes</p>
+                        </div>
+                        <label className="relative inline-block w-14 h-7">
+                          <input
+                            type="checkbox"
+                            checked={notificaciones.smsRecordatorios}
+                            onChange={(e) => setNotificaciones({ ...notificaciones, smsRecordatorios: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            )}
+
+            {/* Seguridad */}
+            {seccionActiva === 'seguridad' && (
+              <div className="space-y-6">
+                <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-6">Seguridad de la Cuenta</h2>
+
+                  {/* Change Password */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-gray-100 mb-4">Cambiar Contraseña</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-gray-400 font-semibold mb-2 text-sm">Contraseña Actual</label>
+                        <div className="relative">
+                          <input
+                            type={mostrarPassword ? 'text' : 'password'}
+                            className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676] pr-12"
+                            placeholder="••••••••"
+                          />
+                          <button
+                            onClick={() => setMostrarPassword(!mostrarPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                          >
+                            {mostrarPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-gray-400 font-semibold mb-2 text-sm">Nueva Contraseña</label>
+                        <input
+                          type="password"
+                          className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                          placeholder="••••••••"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-gray-400 font-semibold mb-2 text-sm">Confirmar Nueva Contraseña</label>
+                        <input
+                          type="password"
+                          className="w-full px-4 py-3 bg-[#0a0e0d] border border-gray-800 rounded-xl text-gray-100 focus:outline-none focus:border-[#00A676]"
+                          placeholder="••••••••"
+                        />
+                      </div>
+                      <button className="bg-[#00A676] hover:bg-[#00d494] text-white px-6 py-3 rounded-xl font-semibold transition-all">
+                        Actualizar Contraseña
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Two-Factor Auth */}
+                  <div className="mb-8 p-6 bg-[#0a0e0d] rounded-xl border border-gray-800">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                          <Shield className="text-green-400" size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-100 mb-1">Autenticación de Dos Factores</h3>
+                          <p className="text-sm text-gray-400">Añade una capa extra de seguridad a tu cuenta</p>
+                        </div>
+                      </div>
+                      <button className="bg-[#006B4B] hover:bg-[#00A676] text-white px-4 py-2 rounded-lg font-semibold transition-all text-sm">
+                        Activar
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Active Sessions */}
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-100 mb-4">Sesiones Activas</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <Monitor className="text-blue-400" size={20} />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-100">Chrome en Windows</p>
+                            <p className="text-sm text-gray-400">Lima, Perú • Activo ahora</p>
+                          </div>
+                        </div>
+                        <span className="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-full font-semibold">Actual</span>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                            <Smartphone className="text-purple-400" size={20} />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-100">App Móvil - Android</p>
+                            <p className="text-sm text-gray-400">Cusco, Perú • Hace 2 horas</p>
+                          </div>
+                        </div>
+                        <button className="text-red-400 hover:text-red-300 text-sm font-semibold">
+                          Cerrar sesión
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Apariencia */}
+            {seccionActiva === 'apariencia' && (
+              <div className="space-y-6">
+                <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-6">Personalización</h2>
+
+                  {/* Theme Selection */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-gray-100 mb-4">Tema</h3>
+                    <div className="grid grid-cols-3 gap-4">
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tema: 'claro' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tema === 'claro'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <Sun className="mx-auto mb-3 text-yellow-400" size={32} />
+                        <p className="font-semibold text-gray-100 text-center">Claro</p>
+                      </button>
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tema: 'oscuro' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tema === 'oscuro'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <Moon className="mx-auto mb-3 text-blue-400" size={32} />
+                        <p className="font-semibold text-gray-100 text-center">Oscuro</p>
+                      </button>
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tema: 'auto' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tema === 'auto'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <Monitor className="mx-auto mb-3 text-purple-400" size={32} />
+                        <p className="font-semibold text-gray-100 text-center">Auto</p>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Color Primario */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-bold text-gray-100 mb-4">Color Primario</h3>
+                    <div className="grid grid-cols-5 gap-4">
+                      {coloresPrimarios.map((item) => (
+                        <button
+                          key={item.color}
+                          onClick={() => setApariencia({ ...apariencia, colorPrimario: item.color })}
+                          className={`p-4 rounded-xl border-2 transition-all ${
+                            apariencia.colorPrimario === item.color
+                              ? 'border-white'
+                              : 'border-gray-800'
+                          }`}
+                          style={{ backgroundColor: item.color }}
+                        >
+                          <div className="h-12 flex items-center justify-center">
+                            {apariencia.colorPrimario === item.color && (
+                              <Check className="text-white" size={24} />
+                            )}
+                          </div>
+                          <p className="text-white text-xs font-semibold text-center mt-2">{item.nombre}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tamaño de Fuente */}
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-100 mb-4">Tamaño de Fuente</h3>
+                    <div className="grid grid-cols-3 gap-4">
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tamanoFuente: 'pequeño' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tamanoFuente === 'pequeño'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <p className="text-sm font-semibold text-gray-100 text-center">Pequeño</p>
+                        <p className="text-xs text-gray-400 text-center mt-2">Aa</p>
+                      </button>
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tamanoFuente: 'mediano' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tamanoFuente === 'mediano'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <p className="text-base font-semibold text-gray-100 text-center">Mediano</p>
+                        <p className="text-sm text-gray-400 text-center mt-2">Aa</p>
+                      </button>
+                      <button
+                        onClick={() => setApariencia({ ...apariencia, tamanoFuente: 'grande' })}
+                        className={`p-6 rounded-xl border-2 transition-all ${
+                          apariencia.tamanoFuente === 'grande'
+                            ? 'border-[#00A676] bg-[#00A676]/10'
+                            : 'border-gray-800 bg-[#0a0e0d]'
+                        }`}
+                      >
+                        <p className="text-lg font-semibold text-gray-100 text-center">Grande</p>
+                        <p className="text-base text-gray-400 text-center mt-2">Aa</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Privacidad */}
+            {seccionActiva === 'privacidad' && (
+              <div className="space-y-6">
+                <div className="bg-[#0d1512] rounded-2xl p-6 border border-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-100 mb-2">Configuración de Privacidad</h2>
+                  <p className="text-gray-400 mb-6">Controla qué información es visible para otros</p>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                      <div>
+                        <p className="font-semibold text-gray-100">Perfil Público</p>
+                        <p className="text-sm text-gray-400">Permite que otros estudiantes vean tu perfil</p>
+                      </div>
+                      <label className="relative inline-block w-14 h-7">
+                        <input
+                          type="checkbox"
+                          checked={privacidad.perfilPublico}
+                          onChange={(e) => setPrivacidad({ ...privacidad, perfilPublico: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                      </label>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                      <div>
+                        <p className="font-semibold text-gray-100">Mostrar Email</p>
+                        <p className="text-sm text-gray-400">Tu email será visible en tu perfil público</p>
+                      </div>
+                      <label className="relative inline-block w-14 h-7">
+                        <input
+                          type="checkbox"
+                          checked={privacidad.mostrarEmail}
+                          onChange={(e) => setPrivacidad({ ...privacidad, mostrarEmail: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                      </label>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                      <div>
+                        <p className="font-semibold text-gray-100">Mostrar Teléfono</p>
+                        <p className="text-sm text-gray-400">Tu teléfono será visible para otros estudiantes</p>
+                      </div>
+                      <label className="relative inline-block w-14 h-7">
+                        <input
+                          type="checkbox"
+                          checked={privacidad.mostrarTelefono}
+                          onChange={(e) => setPrivacidad({ ...privacidad, mostrarTelefono: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                      </label>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-[#0a0e0d] rounded-xl">
+                      <div>
+                        <p className="font-semibold text-gray-100">Mostrar Notas</p>
+                        <p className="text-sm text-gray-400">Permite que otros vean tus calificaciones</p>
+                      </div>
+                      <label className="relative inline-block w-14 h-7">
+                        <input
+                          type="checkbox"
+                          checked={privacidad.mostrarNotas}
+                          onChange={(e) => setPrivacidad({ ...privacidad, mostrarNotas: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#00A676]"></div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Danger Zone */}
+                  <div className="mt-8 p-6 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <div className="flex items-start gap-4">
+                      <AlertCircle className="text-red-400 flex-shrink-0 mt-1" size={24} />
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-red-400 mb-2">Zona de Peligro</h3>
+                        <p className="text-sm text-gray-300 mb-4">
+                          Estas acciones son permanentes y no se pueden deshacer. Por favor, procede con precaución.
+                        </p>
+                        <div className="space-y-3">
+                          <button className="w-full bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/50 py-3 rounded-lg font-semibold transition-all">
+                            Descargar Mis Datos
+                          </button>
+                          <button className="w-full bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/50 py-3 rounded-lg font-semibold transition-all">
+                            Eliminar Mi Cuenta
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Save Button */}
+            <div className="flex justify-end gap-4 mt-6">
+              <button className="px-6 py-3 bg-[#0d1512] border border-gray-800 text-gray-100 rounded-xl font-semibold hover:border-gray-700 transition-all">
+                Cancelar
+              </button>
+              <button
+                onClick={handleGuardar}
+                disabled={guardando}
+                className="px-6 py-3 bg-gradient-to-r from-[#006B4B] to-[#00A676] text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-[#006B4B]/30 transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                {guardando ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Guardando...
+                  </>
+                ) : (
+                  <>
+                    <Save size={20} />
+                    Guardar Cambios
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

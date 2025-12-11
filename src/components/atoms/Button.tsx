@@ -13,19 +13,20 @@ const sizeMap={
     normal:"py-3 px-8",
     small:"py-2 px-4",
 }
-type ButtonProps={
+type ButtonProps=React.ButtonHTMLAttributes<HTMLButtonElement> & {
     children:React.ReactNode,
     variant:"primary"|"secondary"|"horario"|"urgente"|"proximo"|"none",
     className?:string,
     size?: "normal" | "small",
     onClick?:()=>void
+   
 
 }
-const Button = ({variant,children,className,onClick,size="normal"}:ButtonProps & {size?: "normal" | "small"}) => {
+const Button = ({variant,children,className,onClick,size="normal",...props}:ButtonProps & {size?: "normal" | "small"}) => {
   return (
     <button onClick={onClick} className={`transition-all duration-300 ${sizeMap[size]} rounded-lg  font-semibold cursor-pointer hover:-translate-y-0.5
           hover:shadow-[0_6px_20px_rgba(0,107,75,0.5)] 
-        ${styles[variant]} ${className}`}>{children}</button>
+        ${styles[variant]} ${className}`} {...props}>{children}</button>
   )
 }
 
