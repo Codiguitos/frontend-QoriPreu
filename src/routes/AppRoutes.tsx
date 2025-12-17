@@ -5,12 +5,15 @@ import AuthLayout from '../components/templates/AuthLayout'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import DashboardAlumno from '../pages/Dashboard'
 import DashboardLayout from '../components/templates/DashboardLayout'
+
 import Inicio from '../pages/Dashboard/Inicio/Inicio'
 import MisCursos from '../pages/Dashboard/MisCursos/MisCursos'
 import Calendario from '../pages/Dashboard/Calendario/Calendario'
 import MisNotas from '../pages/Dashboard/MisNotas/MisNotas'
 import Configuracion from '../pages/Dashboard/Configuracion/Configuracion'
 import CursoId from '../pages/Dashboard/CursoId/CursoId'
+
+
 import DashboardDocenteLayout from '../components/templates/DashboardDocenteLayout'
 import InicioDocente from '../pages/DashboardDocente/Inicio/Inicio'
 import MisCursosDocente from '../pages/DashboardDocente/MisCursos/MisCursos'
