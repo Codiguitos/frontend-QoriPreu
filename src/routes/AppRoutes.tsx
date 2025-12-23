@@ -18,11 +18,21 @@ import Estudiantes from '../pages/DashboardDocente/Estudiantes/Estudiantes'
 import Asistencia from '../pages/DashboardDocente/Asistencia/Asistencia'
 import ConfiguracionDocente from '../pages/DashboardDocente/Configuracion/Configuracion'
 import CursoIdDocente from '../pages/DashboardDocente/CursoId/CursoId'
+import DashboardAdminLayout from '../components/templates/DashboardAdminLayout'
+import ResumenAdmin from '../pages/DashboardAdmin/Resumen/Resumen'
+import UsuariosAdmin from '../pages/DashboardAdmin/Usuarios/Usuarios'
+import CursosAdmin from '../pages/DashboardAdmin/Cursos/Cursos'
+import ConfiguracionAdmin from '../pages/DashboardAdmin/Configuracion/Configuracion'
+import Pagos from '../pages/Pagos/Pagos'
 const AppRoutes = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/pagos",
+      element: <Pagos />,
     },
     {
       path: "/auth",
@@ -95,6 +105,28 @@ const AppRoutes = () => {
         {
           path:":slug",
           element:<CursoIdDocente/>
+        }
+      ]
+    },
+    {
+      path:"/admin",
+      element:<DashboardAdminLayout/>,
+      children:[
+        {
+          index:true,
+          element:<ResumenAdmin/>
+        },
+        {
+          path:"usuarios",
+          element:<UsuariosAdmin/>
+        },
+        {
+          path:"cursos",
+          element:<CursosAdmin/>
+        },
+        {
+          path:"configuracion",
+          element:<ConfiguracionAdmin/>
         }
       ]
     }

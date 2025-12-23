@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
 import { Home, BookOpen, Users, LogOut, GraduationCap, Settings } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import NotificationButton from '../molecules/NotificationButton'
 
 const DashboardDocenteLayout = () => {
     const navItems = [
@@ -14,9 +15,12 @@ const DashboardDocenteLayout = () => {
     return (
         <div className='min-h-screen bg-[#0a0e0d] flex'>
             <div className='hidden sm:flex flex-col w-64 bg-[#0a1410] border-r border-gray-800'>
-                <div className="p-6 bg-[#006B4B]">
-                    <h1 className="text-2xl font-bold text-white">Qori<span className="text-[#FFB800]">Preu</span></h1>
-                    <p className="text-sm text-white/90 mt-1">Academia Cusco</p>
+                <div className="p-6 bg-[#006B4B] flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-bold text-white">Qori<span className="text-[#FFB800]">Preu</span></h1>
+                        <p className="text-sm text-white/90 mt-1">Academia Cusco</p>
+                    </div>
+                    <NotificationButton />
                 </div>
                 
                 <nav className='flex-1 px-4 py-6'>
