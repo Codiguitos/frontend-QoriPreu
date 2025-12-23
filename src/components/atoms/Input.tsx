@@ -1,18 +1,28 @@
-import React from 'react'
+// src/atoms/Input.tsx
+import React from "react";
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-    variant?: 'primary'; // Puedes añadir más variantes si lo necesitas
+  variant?: "primary";
+  error?: string;
 };
 
-const Input = ({ className, ...props }: InputProps) => {
-  return (    
-    <input
-        className={`w-full bg-[#0d1512] border border-gray-700 rounded-lg px-4 py-3 text-gray-200
-                    focus:outline-none focus:ring-2 focus:ring-[#00A676] focus:border-[#00A676]
-                    transition-all duration-300 ${className}`}
-        {...props}
-    />
-  )
-}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, error, ...props }, ref) => {
+    return (
+      <div className="flex flex-col">
+        <input
+          ref={ref}
+          className={`w-full bg-[#0d1512] border border-gray-700 rounded-lg px-4 py-3 text-gray-200
+                      focus:outline-none focus:ring-2 focus:ring-[#00A676] focus:border-[#00A676]
+                      transition-all duration-300 ${className}`}
+          {...props}
+        />
+        {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+      </div>
+    );
+  }
+);
 
-export default Input
+Input.displayName = "Input";
+
+export default Input;
