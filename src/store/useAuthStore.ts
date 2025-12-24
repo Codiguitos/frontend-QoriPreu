@@ -16,7 +16,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   token: null,
   loading: false,
-
+  //Funcion para Logear al usuario
   loginUser: async (rol, data) => {
     set({ loading: true });
     try {
@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ loading: false });
     }
   },
-
+  //Funcion para registrar al usuario
   registerUser: async (data) => {
     set({ loading: true });
     try {

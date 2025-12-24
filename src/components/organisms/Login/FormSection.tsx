@@ -3,7 +3,6 @@
   import Text from '../../atoms/Text'
   import { useNavigate } from 'react-router'
   import {useForm} from 'react-hook-form'
-  import type {SubmitHandler} from 'react-hook-form'
   type LoginFormValues = {
   correo: string;
   password: string;

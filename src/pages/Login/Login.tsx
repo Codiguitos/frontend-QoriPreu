@@ -1,6 +1,4 @@
-import React from 'react'
 import FormSection from '../../components/organisms/Login/FormSection'
-import DescriptionSection from '../../components/organisms/Login/DescriptionSection'
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router';
 type LoginFormValues = {
@@ -14,11 +12,12 @@ const Login = () => {
 
   const handleLogin = async (data: LoginFormValues) => {
     try {
-      await loginUser("alumno", data); // espera que termine login
-      navigate("/das"); // solo navegar si login fue exitoso
+      await loginUser("administrador", data); // espera que termine login
+      navigate("/admin"); // solo navegar si login fue exitoso
       console.log("Login exitoso");
     } catch (error) {
-      alert("Error en login: revisa tus credenciales");
+      console.log(error)
+      alert("Error en login: revisa tus credenciales",);
     }
   };
 

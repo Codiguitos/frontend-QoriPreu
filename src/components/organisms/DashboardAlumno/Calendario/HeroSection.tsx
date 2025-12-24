@@ -1,7 +1,8 @@
 import React from 'react'
-import StatCard from '../../../molecules/dashboard/StatCard'
+import StatCard from '../../../molecules/StatCard'
 import Text from '../../../atoms/Text'
 import {Bell} from 'lucide-react'
+import {BookOpen} from 'lucide-react'
 const HeroSection = () => {
   return (
     <section className='w-full grid md:grid-cols-[2fr_1fr] gap-5 '>
@@ -9,7 +10,7 @@ const HeroSection = () => {
             <Text size='h3' className='text-white'>Calendario</Text>
             <Text size='p'>Mira tu semana academica de forma inteligente</Text>
             <div className='flex  gap-10'>
-                <StatCard nombre='Total Clase' variant='primary' valor='11' />
+                <StatCard icono={<BookOpen  className='text-white mr-2'/>} nombre='Total Clases' variant='primary' valor='11' />
                 <StatCard nombre='Horas/Semanal' variant='secondary' valor='22h'/>
                 <StatCard nombre='Asistencia' variant='secondary' valor='95%'/>
             </div>

@@ -4,7 +4,7 @@ import Input from "../atoms/Input";
 import Label from "../atoms/Label";
 import type { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 
-type InputLabelProps = {
+type InputLabelProps =React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   placeholder?: string;
   error?: string;
@@ -12,11 +12,11 @@ type InputLabelProps = {
   type?: string;
 };
 
-const InputLabel: React.FC<InputLabelProps> = ({ label, placeholder, error, register, type = "text" }) => {
+const InputLabel: React.FC<InputLabelProps> = ({ label, placeholder, error, register, type = "text" ,...props}) => {
   return (
     <div className="flex flex-col gap-1">
       <Label>{label}</Label>
-      <Input placeholder={placeholder} type={type} {...register} error={error} />
+      <Input {...props} placeholder={placeholder} type={type} {...register} error={error} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react'
-import Text from '../../atoms/Text'
+import Text from '../atoms/Text'
 const variantMap = {
     primary: 'bg-gradient-to-br from-[#006B4B] to-[#00A676] rounded-2xl p-5 relative overflow-hidden',
     secondary: 'bg-[#0d1512] rounded-2xl p-5 border border-gray-800',
