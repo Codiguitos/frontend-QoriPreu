@@ -3,12 +3,12 @@ import Button from '../../../../atoms/Button';
 import Text from '../../../../atoms/Text';
 import type { Docente } from '../../../../../type/Docente';
 import { useDeleteDocente } from '../../../../../hook/Admin/useDeleteDocente';
-interface UpdateDocenteProps {
+interface DeleteDocenteProps {
   onClose: () => void;
   docente: Docente ;
 }
 
-const DeleteDocente = ({ onClose, docente }: UpdateDocenteProps) => {
+const DeleteDocente = ({ onClose, docente }: DeleteDocenteProps) => {
   const { deleteDocente, loading, error } = useDeleteDocente();
 
   const handleEliminar = async () => {

@@ -17,22 +17,34 @@ export type CursoInput = {
     fechaInicio: string; // YYYY-MM-DD
     fechaFin: string;    // YYYY-MM-DD
     schedules: Horario[];
-    // CORRECCIÓN 1: Debe ser number para coincidir con la DB
+    idDocente: number; 
+}
+export type CursoUpdate = {
+    idCurso: number;
+    nombre: string;
+    descripcion: string;
+    precio: number;
+    cupoMaximo: number; // ¡Te faltaba este campo en el input!
+    estado: 'activo' | 'inactivo';
+    fechaInicio: string; // YYYY-MM-DD
+    fechaFin: string;    // YYYY-MM-DD
+    schedules: Horario[];
     idDocente: number; 
 }
 type Docente={
     codigoDocente:number,
-    apellido:string,
-    nombre:string,
-    dni:string,
+    apellido?:string,
+    nombre?:string,
+    dni?:string,
 }
 export type Curso = {
   idCurso: number;
   nombreCurso: string;  // . resto de campos
   Descripcion: string;
   Precio: number; 
+  cupoMaximo: number;
   Estado: 'activo' | 'inactivo';
-  inscritos:number
+  inscritos?:number
   fechaInicio: string;
   fechaFin: string;
   horarios: Horario[];

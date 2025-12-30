@@ -16,8 +16,8 @@ export const AddDocenteSection = () => {
     <section>
       <div className="flex justify-between items-center">
         <div>
-          <Text size="h2" className="mb-2 text-white">
-            Gestión de Docentes
+          <Text size="h3" className=" text-white">
+            Gestion de Docentes
           </Text>
           <Text size="p">Administra el equipo docente</Text>
         </div>

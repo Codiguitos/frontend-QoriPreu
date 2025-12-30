@@ -26,13 +26,13 @@ const HorarioItem = ({horario,className,children}:Props) => {
     return (
     <>
       {horario ? (
-        <div onClick={()=>navigate(`/das/${horario.curso}`)} className={` w-full cursor-pointer ${variantMap[horario.curso]} ${className} 
-        rounded-xl border h-20 flex flex-col justify-center items-center hover:transform-3d hover:scale-[1.03] transition-all duration-300 ease-in-out`}>
+        <div  className={` w-full cursor-pointer bg-[#3B82F6] ${className} 
+        rounded-xl border h-15 flex flex-col justify-center items-center hover:transform-3d hover:scale-[1.03] transition-all duration-300 ease-in-out`}>
             <Text size='p' className='text-white font-bold'>{horario.curso}</Text>
             <Text size='small' className='flex truncate'> <User size={20}/>Prof. {horario.profesor}</Text>
         </div>
       ) : (
-        <div className={`bg-[#0a0e0d]/50 rounded-xl border border-gray-800/50 h-20 w-full ${className}`}>
+        <div className={`bg-[#0a0e0d]/50 rounded-xl border border-gray-800/50 h-15 w-full ${className}`}>
             {children}
         </div>
       )}

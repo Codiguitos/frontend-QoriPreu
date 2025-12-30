@@ -1,128 +1,134 @@
 // store/useAdminStore.ts
 import { create } from "zustand";
-import { getDocenteRequest ,getCursoRequest} from "../api/adminApi";
+// Asegúrate de que adminApi exporte estas funciones (como hicimos en el paso anterior)
+import { 
+  getDocentesRequest, 
+  getCursosRequest, 
+  getAlumnosRequest, 
+  getMatriculasReviewRequest 
+} from "../api/adminApi";
 import { useAuthStore } from "./useAuthStore";
+
+// Tipos (Asegúrate de tener estos archivos en tu carpeta /type)
 import type { Docente } from "../type/Docente";
 import type { Curso } from "../type/Curso";
-// import type { Estudiante } from "../type/Estudiante";
-
+import type { Alumno } from "../type/Alumno"; // Asumo que tienes un tipo Alumno base
+import type { MatriculaValidacion } from "../type/Matricula";
 interface AdminState {
-  // 📊 DATOS COMPARTIDOS (cache)
+  // 📊 DATOS (Cache)
   docentes: Docente[];
-  // estudiantes: Estudiante[];
   cursos: Curso[];
-  
-  // ⏳ ESTADOS DE CARGA (solo para GETs)
+  estudiantes: Alumno[]; 
+  matriculasPendientes: MatriculaValidacion[]; // <--- NUEVO: Para validar pagos
+
+  // ⏳ ESTADOS DE CARGA
   loadingDocentes: boolean;
   loadingEstudiantes: boolean;
   loadingCursos: boolean;
-  
-  // ❌ ERRORES (solo para GETs críticos)
+  loadingMatriculas: boolean;
+
+  // ❌ ERRORES
   errorDocentes: string | null;
   errorEstudiantes: string | null;
   errorCursos: string | null;
-  
-  // 🔄 MÉTODOS DE LECTURA (GET)
+  errorMatriculas: string | null;
+
+  // 🔄 ACCIONES (GETters)
   getDocentes: () => Promise<void>;
-  // getEstudiantes: () => Promise<void>;
+  getEstudiantes: () => Promise<void>;
   getCursos: () => Promise<void>;
-  
-  // 🔍 FILTROS/BÚSQUEDA (estado compartido)
-  // searchTerm: string;
-  // setSearchTerm: (term: string) => void;
-  // filteredDocentes: () => Docente[];
-  
+  getMatriculasRevision: () => Promise<void>; // <--- NUEVO
+
   // 🧹 UTILIDADES
   clearCache: () => void;
 }
 
 export const useAdminStore = create<AdminState>((set, get) => ({
-  // Estado inicial
+  // --- ESTADO INICIAL ---
   docentes: [],
-  // estudiantes: [],
+  estudiantes: [],
   cursos: [],
+  matriculasPendientes: [],
+  
   loadingDocentes: false,
   loadingEstudiantes: false,
   loadingCursos: false,
+  loadingMatriculas: false,
+
   errorDocentes: null,
   errorEstudiantes: null,
   errorCursos: null,
-  searchTerm: '',
+  errorMatriculas: null,
 
-  // GET Docentes
+  // --- 1. GET DOCENTES ---
   getDocentes: async () => {
     set({ loadingDocentes: true, errorDocentes: null });
     try {
+      // Verificación de token (opcional si axiosClient ya lo maneja, pero buena práctica)
       const token = useAuthStore.getState().token;
       if (!token) throw new Error("No autenticado");
 
-      const res = await getDocenteRequest();
-      set({ docentes: res.data.data });
+      const res = await getDocentesRequest();
+      set({ docentes: res.data.data }); // Asumiendo estructura { data: { data: [] } } o ajusta según backend
     } catch (error) {
       set({
-        errorDocentes:
-          error instanceof Error ? error.message : "Error al obtener docentes",
+        errorDocentes: error instanceof Error ? error.message : "Error al obtener docentes",
       });
     } finally {
       set({ loadingDocentes: false });
     }
   },
-  
+
+  // --- 2. GET CURSOS ---
   getCursos: async () => {
     set({ loadingCursos: true, errorCursos: null });
     try {
-      const token = useAuthStore.getState().token;
-      if (!token) throw new Error("No autenticado");
-
-      const res = await getCursoRequest();
+      const res = await getCursosRequest();
       set({ cursos: res.data.data });
     } catch (error) {
       set({
-        errorCursos:
-          error instanceof Error ? error.message : "Error al obtener docentes",
+        errorCursos: error instanceof Error ? error.message : "Error al obtener cursos",
       });
     } finally {
       set({ loadingCursos: false });
     }
   },
 
-  // // GET Estudiantes
-  // getEstudiantes: async () => {
-  //   set({ loadingEstudiantes: true, errorEstudiantes: null });
-  //   try {
-  //     const token = useAuthStore.getState().token;
-  //     if (!token) throw new Error("No autenticado");
+  // --- 3. GET ESTUDIANTES (Alumnos) ---
+  getEstudiantes: async () => {
+    set({ loadingEstudiantes: true, errorEstudiantes: null });
+    try {
+      const res = await getAlumnosRequest();
+      set({ estudiantes: res.data.data });
+    } catch (error) {
+      set({
+        errorEstudiantes: error instanceof Error ? error.message : "Error al obtener estudiantes",
+      });
+    } finally {
+      set({ loadingEstudiantes: false });
+    }
+  },
 
-  //     const res = await getEstudiantesRequest();
-  //     set({ estudiantes: res.data.data });
-  //   } catch (error) {
-  //     set({
-  //       errorEstudiantes:
-  //         error instanceof Error ? error.message : "Error al obtener estudiantes",
-  //     });
-  //   } finally {
-  //     set({ loadingEstudiantes: false });
-  //   }
-  // },
+  // --- 4. GET MATRÍCULAS PARA REVISIÓN (Validar Pagos) ---
+  getMatriculasRevision: async () => {
+    set({ loadingMatriculas: true, errorMatriculas: null });
+    try {
+      const res = await getMatriculasReviewRequest();
+      set({ matriculasPendientes: res.data.data });
+    } catch (error) {
+      set({
+        errorMatriculas: error instanceof Error ? error.message : "Error al obtener matrículas",
+      });
+    } finally {
+      set({ loadingMatriculas: false });
+    }
+  },
 
-  // Búsqueda/Filtros
-  // setSearchTerm: (term) => set({ searchTerm: term }),
-  
-  // filteredDocentes: () => {
-  //   const { docentes, searchTerm } = get();
-  //   if (!searchTerm) return docentes;
-    
-  //   return docentes.filter(d => 
-  //     d.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     d.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     d.dni.includes(searchTerm)
-  //   );
-  // },
-
-  // Limpiar cache
+  // --- LIMPIEZA ---
   clearCache: () => set({ 
     docentes: [], 
-    // estudiantes: [], 
-    // cursos: [] 
+    estudiantes: [], 
+    cursos: [],
+    matriculasPendientes: []
   }),
 }));

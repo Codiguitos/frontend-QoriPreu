@@ -5,6 +5,14 @@ export type Docente={
     DNI:string,
     Nombre:string,
     Telefono:string
+  }
+export type DocenteInput={
+    Apellido:string,
+    Correo:string,
+    DNI:string,
+    Nombre:string,
+    Telefono:string
+    
 }
 export interface CreateDocentePayload {
   dni: string;

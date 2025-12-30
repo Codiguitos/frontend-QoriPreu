@@ -20,8 +20,8 @@ export type RegisterPayload = {
 }
 
 // Login por rol
-export const loginRequest = (rol: string, data: LoginPayload) => {
-  return axios.post(`${API_URL}/auth/login/${rol}`, data);
+export const loginRequest = (data: LoginPayload) => {
+  return axios.post(`${API_URL}/auth/login`, data);
 };
 
 // Registro

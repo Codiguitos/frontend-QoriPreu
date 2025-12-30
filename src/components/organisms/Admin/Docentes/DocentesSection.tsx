@@ -1,14 +1,13 @@
 
 import { AdminDocenteCard } from "../../../molecules/Admin/AdminDocenteCard";
 import type { Docente } from "../../../../type/Docente";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import UpdateDocente from "./modals/UpdateDocente";
 import DeleteDocente from "./modals/DeleteDocente";
-type DocentesSectionProps = {
-  docentes: Docente[];
-
-}
+import { useAdminStore } from "../../../../store/useAdminStore";
+import {FullScreenLoader} from "../../../molecules/Loading";
 const inicionalForm:Docente = {
+  codigoDocente: 0,
   DNI: '',
   Nombre: '',
   Apellido: '',
@@ -16,7 +15,11 @@ const inicionalForm:Docente = {
   Telefono: '',
 };
 
-export const DocentesSection = ({ docentes}:DocentesSectionProps) => {
+export const DocentesSection = () => {
+    const { getDocentes, docentes,loadingDocentes } = useAdminStore();
+  useEffect(() => {
+    getDocentes();
+  }, []);
   const [selectDocente,setSelectDocente]=useState<Docente>(inicionalForm)
   const [openEditModal,setOpenEditModal]=useState(false)
   const [openDeleteModal,setOpenDeleteModal]=useState(false)
@@ -29,7 +32,9 @@ export const DocentesSection = ({ docentes}:DocentesSectionProps) => {
     setOpenDeleteModal(true)
   }
   return (
+
     <div className='space-y-6  w-full'>
+      {loadingDocentes && <FullScreenLoader/>}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {docentes.map((docente) => (
           <AdminDocenteCard
