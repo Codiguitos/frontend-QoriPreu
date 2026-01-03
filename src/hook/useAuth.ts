@@ -8,7 +8,7 @@ export const useAuth = () => {
   const login = async (rol: string, data: LoginPayload) => {
     setLoading(true);
     try {
-      const res = await loginRequest(rol, data);
+      const res = await loginRequest(data);
       return res.data;
     } finally {
       setLoading(false);

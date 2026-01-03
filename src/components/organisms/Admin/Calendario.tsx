@@ -150,7 +150,7 @@ const Calendario: React.FC = () => {
                       }}
                     >
                       <div className="flex items-center gap-1">
-                        <TipoIcon size={10} />
+                        <TipoIcon  />
                         <span className="truncate font-medium">{evento.titulo}</span>
                       </div>
                     </div>
