@@ -3,7 +3,6 @@ import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import AuthLayout from '../components/templates/AuthLayout'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import DashboardAlumno from '../pages/Dashboard'
 //Rutas del Alumno 
 import DashboardLayout from '../components/templates/DashboardLayout'
 import Inicio from '../pages/Alumno/Inicio/Inicio'
@@ -23,7 +22,6 @@ import Asistencia from '../pages/Docente/Asistencia/Asistencia'
 import ConfiguracionDocente from '../pages/Docente/Configuracion/Configuracion'
 import CursoIdDocente from '../pages/Docente/CursoId/CursoId'
 
-import AdminDashboard from '../pages/Admin/DashboardAdmin'
 
 
 //Rutas Admin
@@ -39,14 +37,12 @@ import ProtectedRoute from '../components/organisms/auth/ProtectedRoute'
 const AppRoutes = () => {
   const routes = createBrowserRouter([
     {path: "/", element: <Home />,},
-    {path:"/adminb",element:<AdminDashboard/>},
     
     { path: "/auth", element: <AuthLayout />,
       children: [
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },], },
     
-    {path: "/das", element: <DashboardAlumno />,},
     {  path: "/alumno",
       // Envolvemos el Layout con el Guardia
       element: (

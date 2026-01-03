@@ -50,3 +50,4 @@ export type Curso = {
   horarios: Horario[];
   docenteAsignado: Docente;
   estudiantes?: Alumno[];}
+// 
