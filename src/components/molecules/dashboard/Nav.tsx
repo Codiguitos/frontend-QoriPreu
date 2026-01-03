@@ -12,24 +12,20 @@ import {
 } from 'lucide-react';
 import { useLocation } from 'react-router';
 
-const Nav = () => {
+type NavItemProps={
+    name:string,
+    to:string,
+    icon:React.ReactNode,
+    cursos?:{name:string,to:string,icon:React.ReactNode}[]
+}
+
+type NavProps={
+    items:NavItemProps[]
+}
+const Nav = ({items}:NavProps) => {
 
     const [openSection, setOpenSection] = useState<string | null>(null);
     const location = useLocation();
-
-    const cursos = [
-        { name: "Matematica", to: "/das/Matematica", icon: <BookOpen /> },
-        { name: "Quimica", to: "/das/Quimica", icon: <Video /> },
-        { name: "Algebra", to: "/das/Algebra", icon: <FileText /> },
-    ];
-
-    const items = [
-        { name: "Inicio", to: "/das", icon: <Home /> },
-        { name: "Cursos",to:location.pathname, icon: <BookOpen />, cursos },
-        { name: "Calendario", to: "/das/Calendario", icon: <Calendar /> },
-        { name: "Mis Notas", to: "/das/mis-notas", icon: <TrendingUp /> },
-        { name: "Configuracion", to: "/das/Configuracion", icon: <Settings /> }
-    ];
 
     const toggle = (name: string) => {
         setOpenSection(openSection === name ? null : name);
@@ -53,7 +49,6 @@ const Nav = () => {
                             >
                                 {item.icon}
                                 {item.name}
-
                                 <ChevronUp
                                     className={`ml-auto transition-transform duration-300 ${
                                         isOpen ? "rotate-0" : "rotate-180"

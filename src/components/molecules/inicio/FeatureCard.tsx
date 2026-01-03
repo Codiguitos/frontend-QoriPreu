@@ -16,7 +16,8 @@ const FeatureCard = ({icon,title,text}:FeatureCardProps) => {
         hover:-translate-y-[10px]
         hover:border-[rgba(0,107,75,0.5)]
         hover:shadow-[0_20px_40px_rgba(0,107,75,0.2)]
-        flex flex-col gap-2  ">
+        flex flex-col gap-2  
+        ">
         <div
             className=" absolute top-0 left-0 w-full h-[4px]  bg-[linear-gradient(90deg,#006B4B,#00A676)]
             scale-x-0 transition-transform duration-400

@@ -1,34 +1,50 @@
 import React from 'react'
 import HeroSection from '../organisms/DashboardAlumno/CursoId/HeroSection'
 import MaterialSection from '../organisms/DashboardAlumno/CursoId/MaterialSection'
-import type { Material } from '../../type/MaterialITem'
 import AccionesSection from '../organisms/DashboardAlumno/CursoId/AccionesSection'
 import TeacherSection from '../organisms/DashboardAlumno/CursoId/TeacherSection'
 import ActividadesSections from '../organisms/DashboardAlumno/CursoId/ActividadesSections'
-const CursoLayout = () => {
-    const Curso={
-        nombreCurso: "Matemática",
-        nombreProfesor: "Juan Perez",
-        progreso: 78,
-        tareas: 3,
-        materiales: 12
-    }
-    const materiales :Material[] = [
-        { id: 1, title: "Introducción a la Álgebra.pdf", type: "documento", url: "https://drive.google.com/intro_algebra.pdf" },
-        { id: 2, title: "Funciones y Gráficas.mp4", type: "video", url: "https://youtube.com/funciones_graficas" },
-        { id: 3, title: "Ecuaciones Lineales.pdf", type: "documento", url: "https://drive.google.com/ecuaciones_lineales.pdf" }
-    ]
+
+// Imports de tipos
+import type { CourseContentResponse } from '../../type/CourseContent'
+import type { Material } from '../../type/MaterialITem'
+
+interface Props {
+    data: CourseContentResponse;
+}
+
+const CursoLayout = ({ data }: Props) => {
+    
+    const { curso, materiales } = data;
+
+    // 🔄 ADAPTADOR: Convertimos el formato del Backend al formato que espera tu componente MaterialSection
+    // Backend: { idMaterial, Tipo, url, etiqueta }
+    // Frontend Component: { id, title, type, url }
+    const materialesAdaptados: Material[] = materiales.map(m => ({
+        id: m.idMaterial,
+        title: m.etiqueta || "Material sin título", // Usamos 'etiqueta' como título
+        type: m.Tipo === 'pdf' ? 'documento' : m.Tipo === 'ppt' ? 'documento' : 'video', // Mapeo simple
+        url: m.url
+    }));
+
     return (
         <div className='w-full grid gap-8 p-8'>
-            <HeroSection nombreCurso={Curso.nombreCurso} nombreProfesor={Curso.nombreProfesor} progreso={Curso.progreso} tareas={Curso.tareas} materiales={Curso.materiales} />
+            {/* Pasamos datos reales al Hero */}
+            <HeroSection 
+                nombreCurso={curso.Nombre} 
+                nombreProfesor={curso.nombreDocente || "Profesor sin nombre"} // Si tu query no trae profe aun, deja un texto fijo o agrégalo al query
+                materiales={materiales.length} 
+            />
+            
             <div className='grid md:grid-cols-[2.3fr_1fr] gap-8'>
                 <div className='grid gap-8'>
-                    <MaterialSection materiales={materiales}/>
-                    <ActividadesSections />
+                    {/* Pasamos los materiales reales */}
+                    <MaterialSection materiales={materialesAdaptados}/>
+                    {/* <ActividadesSections /> */}
                 </div>
                 <div className='grid gap-8 h-max'>
-                    <AccionesSection />
-                    <TeacherSection />
+                    <AccionesSection link={curso.linkReunion} />
+                    {/* <TeacherSection /> */}
                 </div>
             </div>
         </div>
