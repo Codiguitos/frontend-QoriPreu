@@ -3,7 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import stripePromise from "../../../config/stripe";
 
 import { useAlumnoStore } from "../../../store/useAlumnoStore";
-import type { Curso } from "../../../type/Curso";
+import type { Curso2 as Curso } from "../../../type/Curso";
 
 import Horario from "../../../components/organisms/DashboardAlumno/Matricula/Horario";
 import SelectCursos from "../../../components/organisms/DashboardAlumno/Matricula/SelectCursos";

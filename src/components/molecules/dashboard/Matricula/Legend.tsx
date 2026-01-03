@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Curso } from '../../../../type/Curso';
+import type { Curso2 as Curso } from '../../../../type/Curso';
 
 type Props = {
   selectedCourses: Curso[];

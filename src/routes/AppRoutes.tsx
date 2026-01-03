@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 //Rutas del Alumno 
 import DashboardLayout from '../components/templates/DashboardLayout'
 import Inicio from '../pages/Alumno/Inicio/Inicio'
-import MisCursos from '../pages/Alumno/MisCursos/MisCursos'
 import Calendario from '../pages/Alumno/Calendario/Calendario'
 import MisNotas from '../pages/Alumno/MisNotas/MisNotas'
 import Configuracion from '../pages/Alumno/Configuracion/Configuracion'
@@ -52,7 +51,6 @@ const AppRoutes = () => {
       ),
       children: [
         { index: true, element: <Inicio /> },
-        { path: "Mis-cursos", element: <MisCursos /> },
         { path: "Calendario", element: <Calendario /> },
         { path: "Mis-notas", element: <MisNotas /> },
         { path: "Matricula", element: <Matricula /> },

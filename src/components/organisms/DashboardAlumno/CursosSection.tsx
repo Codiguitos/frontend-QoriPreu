@@ -5,7 +5,7 @@ import { BookOpen } from 'lucide-react';
 import Text from '../../atoms/Text';
 
 // Importamos el Tipo de dato 'Curso'
-import type { Curso } from '../../../type/Curso'; // Asegúrate de tener este tipo o úsalo inline
+import type { Curso2 as Curso} from '../../../type/Curso'; // Asegúrate de tener este tipo o úsalo inline
 
 type Props = {
     cursos: Curso[]; // Recibimos la lista real
