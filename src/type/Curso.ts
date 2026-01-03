@@ -37,6 +37,20 @@ type Docente={
     nombre?:string,
     dni?:string,
 }
+export type Curso2={
+    idCurso: number;
+  nombreCurso: string;  // . resto de campos
+  Descripcion: string;
+  Precio: number; 
+  cupoMaximo: number;
+  Estado: 'activo' | 'inactivo';
+  inscritos?:number
+  fechaInicio: string;
+  fechaFin: string;
+  horarios: Horario[];
+  docente?: Docente;
+  estudiantes?: Alumno[];
+}
 export type Curso = {
   idCurso: number;
   nombreCurso: string;  // . resto de campos

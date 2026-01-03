@@ -11,7 +11,7 @@ const sizeMap = {
   normal: ""
 }
 type TextProps={
-    children:React.ReactNode,
+    children:React.ReactNode | unknown,
     size:"h1"|"h2"|"h3"|"h4"|"h5"|"h6"|"small"|"p"|"normal",
     className?:string,
     variant?:"title" | "body" | "normal"|"subtitle"

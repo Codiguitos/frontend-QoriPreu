@@ -1,5 +1,5 @@
 import { Check,Clock, User,BookOpen,Calendar } from 'lucide-react'
-import type { Curso } from '../../../../type/Curso'
+import type { Curso2 as Curso } from '../../../../type/Curso'
 import Text from '../../../atoms/Text'
 type Props = {
     course:Curso,

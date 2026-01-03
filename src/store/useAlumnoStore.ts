@@ -2,7 +2,7 @@ import {create} from 'zustand'
 import {getMyCoursesRequest,getCatalogoRequest,getProfileRequest} from '../api/alumnoApi'
 import { useAuthStore } from './useAuthStore'
 import type {Alumno} from '../type/Alumno'
-import type {Curso} from '../type/Curso'
+import type {Curso2 as Curso} from '../type/Curso'
 import type { CourseContentResponse } from '../type/CourseContent';
 import { getCourseContentRequest } from '../api/alumnoApi'
 interface AlumnoState{
