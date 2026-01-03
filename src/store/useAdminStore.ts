@@ -43,7 +43,7 @@ interface AdminState {
   clearCache: () => void;
 }
 
-export const useAdminStore = create<AdminState>((set, get) => ({
+export const useAdminStore = create<AdminState>((set) => ({
   // --- ESTADO INICIAL ---
   docentes: [],
   estudiantes: [],

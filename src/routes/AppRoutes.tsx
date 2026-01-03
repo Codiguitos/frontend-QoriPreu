@@ -28,12 +28,12 @@ import AdminDashboard from '../pages/Admin/DashboardAdmin'
 
 //Rutas Admin
 import AdminLayout from '../components/templates/AdminLayout'
-import InicioAdmin from '../pages/Admin/Inicio/InicioAdmin'
+// import InicioAdmin from '../pages/Admin/Inicio/InicioAdmin'
 import EstudiantesAdmin from '../pages/Admin/Estudiante/EstudiantesAdmin'
 import CursosAdmin from '../pages/Admin/Cursos/CursosAdmin'
 import DocentesAdmin from '../pages/Admin/Docente/DocentesAdmin'
-import ConfiguracionAdmin from '../pages/Admin/Configuracion/ConfiguracionAdmin'
-import CalendarioAdmin from '../pages/Admin/Calendario/CalendarioAdmin'
+// import ConfiguracionAdmin from '../pages/Admin/Configuracion/ConfiguracionAdmin'
+// import CalendarioAdmin from '../pages/Admin/Calendario/CalendarioAdmin'
 
 import ProtectedRoute from '../components/organisms/auth/ProtectedRoute'
 const AppRoutes = () => {
