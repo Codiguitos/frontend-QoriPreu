@@ -72,7 +72,7 @@ const AppRoutes = () => {
         { path: "estudiantes", element: <Estudiantes /> },
         { path: "asistencia", element: <Asistencia /> },
         { path: "configuracion", element: <ConfiguracionDocente /> },
-        { path: ":slug", element: <CursoIdDocente /> }
+        { path: "curso/:slug", element: <CursoIdDocente /> }
       ]
     },
 

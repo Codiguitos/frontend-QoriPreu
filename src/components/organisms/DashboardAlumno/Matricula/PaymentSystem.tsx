@@ -1,7 +1,7 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Swal from "sweetalert2";
 import { useAlumnoStore } from "../../../../store/useAlumnoStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 type Props = {
   selectedCursos: any[];
@@ -21,14 +21,21 @@ const PaymentSystem = ({ selectedCursos }: Props) => {
     0
   );
   console.log('Profile:', Profile);
+  const [loading, setLoading] = useState(false)
+
   const handlePayment = async () => {
-    if (!stripe || !elements) return;
+    if (!stripe || !elements) {
+      alert('Error: Stripe aún no está listo. Intenta nuevamente.');
+      return;
+    }
 
     // Validación de seguridad
     if (!Profile || !Profile.DNI) {
-        alert("Error: No se ha cargado el perfil del alumno.");
-        return;
+      alert("Error: No se ha cargado el perfil del alumno.");
+      return;
     }
+
+    setLoading(true)
 
     try {
         // 1️⃣ Backend: Creamos la intención de pago
@@ -75,10 +82,10 @@ const PaymentSystem = ({ selectedCursos }: Props) => {
     } catch (error) {
         console.error(error);
         alert("Error procesando el pago");
+    } finally {
+      setLoading(false)
     }
   };
-console.log("stripe:", stripe);
-console.log("elements:", elements);
 
   return (
     <div className="max-w-md mx-auto bg-gray-900 p-6 rounded-lg">
@@ -106,15 +113,17 @@ console.log("elements:", elements);
       <div className="text-white mt-4">
         Total: S/ {subtotal.toFixed(2)}
       </div>
-<button
-  onClick={handlePayment}
-  disabled={!stripe}
-  className="mt-4 w-full bg-green-600 disabled:bg-gray-600 text-white py-3 rounded"
->
-  Pagar
-</button>
+      <button
+        onClick={handlePayment}
+        disabled={!stripe || loading}
+        aria-busy={loading}
+        className={`mt-4 w-full ${loading ? 'bg-gray-600' : 'bg-green-600'} text-white py-3 rounded`}
+      >
+        {loading ? 'Procesando...' : 'Pagar'}
+      </button>
+
     </div>
   );
-};
+}
 
 export default PaymentSystem;

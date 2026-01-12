@@ -2,10 +2,9 @@ import React from 'react'
 import HeroSection from '../organisms/DashboardAlumno/CursoId/HeroSection'
 import MaterialSection from '../organisms/DashboardAlumno/CursoId/MaterialSection'
 import AccionesSection from '../organisms/DashboardAlumno/CursoId/AccionesSection'
-import TeacherSection from '../organisms/DashboardAlumno/CursoId/TeacherSection'
-import ActividadesSections from '../organisms/DashboardAlumno/CursoId/ActividadesSections'
+// import TeacherSection from '../organisms/DashboardAlumno/CursoId/TeacherSection'
+// import ActividadesSections from '../organisms/DashboardAlumno/CursoId/ActividadesSections'
 
-// Imports de tipos
 import type { CourseContentResponse } from '../../type/CourseContent'
 import type { Material } from '../../type/MaterialITem'
 
@@ -15,36 +14,35 @@ interface Props {
 
 const CursoLayout = ({ data }: Props) => {
     
-    const { curso, materiales } = data;
+    // ✅ FIX: Valor por defecto para evitar el error de pantalla blanca
+    const { curso, materiales = [] } = data;
 
-    // 🔄 ADAPTADOR: Convertimos el formato del Backend al formato que espera tu componente MaterialSection
-    // Backend: { idMaterial, Tipo, url, etiqueta }
-    // Frontend Component: { id, title, type, url }
+    // URL del Backend
+    const API_URL = import.meta.env.VITE_URL || 'http://localhost:4000';
+
+    // 🔄 ADAPTADOR SEGURO
     const materialesAdaptados: Material[] = materiales.map(m => ({
         id: m.idMaterial,
-        title: m.etiqueta || "Material sin título", // Usamos 'etiqueta' como título
-        type: m.Tipo === 'pdf' ? 'documento' : m.Tipo === 'ppt' ? 'documento' : 'video', // Mapeo simple
-        url: m.url
+        title: m.etiqueta || "Material sin título",
+        type: m.Tipo === 'pdf' ? 'documento' : m.Tipo === 'ppt' ? 'documento' : 'video',
+        // ✅ Corregimos la URL agregando el dominio si falta
+        url: m.url?.startsWith('http') ? m.url : `${API_URL}${m.url}`
     }));
 
     return (
         <div className='w-full grid gap-8 p-8'>
-            {/* Pasamos datos reales al Hero */}
             <HeroSection 
-                nombreCurso={curso.Nombre} 
-                nombreProfesor={curso.nombreDocente || "Profesor sin nombre"} // Si tu query no trae profe aun, deja un texto fijo o agrégalo al query
+                nombreCurso={curso?.Nombre || "Curso"} 
+                nombreProfesor={curso?.nombreDocente || "Docente asignado"} 
                 materiales={materiales.length} 
             />
             
             <div className='grid md:grid-cols-[2.3fr_1fr] gap-8'>
                 <div className='grid gap-8'>
-                    {/* Pasamos los materiales reales */}
                     <MaterialSection materiales={materialesAdaptados}/>
-                    {/* <ActividadesSections /> */}
                 </div>
                 <div className='grid gap-8 h-max'>
-                    <AccionesSection link={curso.linkReunion} />
-                    {/* <TeacherSection /> */}
+                    <AccionesSection link={curso?.linkReunion || ""} />
                 </div>
             </div>
         </div>

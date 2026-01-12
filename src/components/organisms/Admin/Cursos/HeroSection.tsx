@@ -22,11 +22,8 @@ const HeroSection = () => {
             </div>
             <Button variant='primary' onClick={handleOpenModal}>+ Crear Curso</Button>
         </div>
-        <div className='flex gap-8'>
+        <div className='flex w-100 gap-8'>
             <StatCard variant='secondary' nombre='total Cursos' valor={cursos.length.toString()}/>
-            <StatCard variant='secondary'  nombre='Estudiantes Total' valor='4'/>
-            <StatCard variant='secondary'  nombre='Cursos Activos' valor='4'/>
-            <StatCard variant='secondary'  nombre='Ingresos Mes' valor='4'/>
         </div>
         {showModal && <CreateCurso onClose={() => setShowModal(false)}/>}
     </section>
