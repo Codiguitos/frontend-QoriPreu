@@ -90,6 +90,28 @@ const AppRoutes = () => {
         { path: "cursos", element: <CursosAdmin /> },
         { path: "docentes", element: <DocentesAdmin /> },
       ]
+    },
+    {
+      path:"/admin",
+      element:<DashboardAdminLayout/>,
+      children:[
+        {
+          index:true,
+          element:<ResumenAdmin/>
+        },
+        {
+          path:"usuarios",
+          element:<UsuariosAdmin/>
+        },
+        {
+          path:"cursos",
+          element:<CursosAdmin/>
+        },
+        {
+          path:"configuracion",
+          element:<ConfiguracionAdmin/>
+        }
+      ]
     }
   ]);
 
