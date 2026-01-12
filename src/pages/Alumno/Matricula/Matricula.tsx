@@ -26,7 +26,7 @@ const Matricula = () => {
   // Días y horarios visibles
   const days = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   const timeSlots = [
-    "08:00 - 10:00",
+    "07:00 - 09:00",
     "10:00 - 12:00",
     "14:00 - 16:00",
     "16:00 - 18:00",
@@ -44,7 +44,7 @@ const Matricula = () => {
 
   // Cursos completos seleccionados
   const selectedCoursesFull: Curso[] = selectedCourses
-    .map((id) => catalogo.find((c) => c.idCurso === id))
+    .map((id) => (catalogo || []).find((c) => c.idCurso === id))
     .filter((c): c is Curso => Boolean(c));
 
   // Construir grilla del horario
@@ -52,13 +52,16 @@ const Matricula = () => {
     const grid: Record<string, Curso[]> = {};
 
     selectedCoursesFull.forEach((course) => {
-      course.horarios.forEach((slot) => {
-        const formattedTime = `${slot.horaInicio.slice(
-          0,
-          5
-        )} - ${slot.horaFinal.slice(0, 5)}`;
+      (course.horarios || []).forEach((slot) => {
+        const hStart = slot.horaInicio ? String(slot.horaInicio).slice(0, 5) : "00:00";
+        const hEnd = slot.horaFinal ? String(slot.horaFinal).slice(0, 5) : "00:00";
+        const formattedTime = `${hStart} - ${hEnd}`;
 
-        const key = `${slot.dia}-${formattedTime}`;
+        // Normalizar el día para evitar diferencias de mayúsculas/acentos
+        const slotDayNorm = String(slot.dia || '').trim().toLowerCase();
+        const matchedDay = days.find(d => d.trim().toLowerCase() === slotDayNorm) || slot.dia;
+
+        const key = `${matchedDay}-${formattedTime}`;
 
         if (!grid[key]) grid[key] = [];
         grid[key].push(course);

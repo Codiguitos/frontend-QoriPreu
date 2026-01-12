@@ -47,7 +47,7 @@ export type Curso2={
   inscritos?:number
   fechaInicio: string;
   fechaFin: string;
-  horarios: Horario[];
+  horarios: Horario[] ;
   docente?: Docente;
   estudiantes?: Alumno[];
 }

@@ -6,9 +6,6 @@ import { useNavigate } from 'react-router-dom'
 type CursoCardProps={
     name:string,
     teacher:string,
-    progreso:number,
-    tareas:number,
-    siguienteClase:string
     icon:React.ReactNode,
     
 }
@@ -29,12 +26,7 @@ const CursoCard = ({...props}:CursoCardProps) => {
             <ChevronRight className='text-white group-hover:text-[#00A676]'/>
         </div>
         
-        <Progress value={90} label='Progreso'/>
 
-        <div className='border-t-2 border-gray-600 pt-2  flex justify-between'>
-          <Text size='small' className='flex gap-2 items-center'><Clock size={18}/>{props.tareas} tareas</Text>
-          <Text size='small' className='text-yellow-500'>{props.siguienteClase} </Text>
-        </div>
     </article>
   )
 }

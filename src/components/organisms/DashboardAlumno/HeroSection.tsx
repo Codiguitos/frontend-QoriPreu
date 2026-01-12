@@ -24,11 +24,7 @@ const HeroSection = ({ nombreAlumno, cantidadCursos }: HeroSectionProps) => {
         </Text>
         
         <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mt-2'>
-          <GlassCard 
-              icon={<TrendingUp className='text-white' size={18}/>} 
-              title='Progreso General' 
-              number='5%' // Esto lo calcularemos más adelante
-          />
+
           <GlassCard 
               icon={<BookOpen className='text-white' size={18}/>} 
               title='Cursos Activos' 

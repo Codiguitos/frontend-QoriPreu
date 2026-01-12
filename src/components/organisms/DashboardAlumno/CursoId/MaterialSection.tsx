@@ -22,7 +22,7 @@ const MaterialSection = ({ materiales }: MaterialSectionProps   ) => {
                         key={material.id}
                         nombreMaterial={material.title}
                         tipoMaterial={material.type.toString() as "video" | "documento"}
-                        fechaSubida="1 Nov 2023"
+                        fechaSubida=""
                         enlaceDescarga={material.url}
                     />
                 ))}

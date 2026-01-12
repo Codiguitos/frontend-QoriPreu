@@ -43,9 +43,7 @@ const CursosSection = ({ cursos, loading }: Props) => {
                             name={curso.nombreCurso} 
                             icon={<BookOpen className='text-white' />} 
                             teacher={curso.docente ? `${curso.docente.nombre} ${curso.docente.apellido}` : "Docente por asignar"} 
-                            progreso={0} // Dato futuro
-                            tareas={0}   // Dato futuro
-                            siguienteClase='Por definir' 
+                           
                         />
                     </div>
                 ))}

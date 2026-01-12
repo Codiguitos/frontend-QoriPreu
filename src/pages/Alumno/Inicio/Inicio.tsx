@@ -32,7 +32,7 @@ const Inicio = () => {
            loading={loadingCurso}
         />
         
-        <NextClassSection/>
+        <NextClassSection cursos={cursos}/>
       </div>
     </div>
   )

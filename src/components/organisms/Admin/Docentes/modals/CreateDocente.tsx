@@ -37,13 +37,14 @@ const CreateDocente = ({ onClose }: CreateDocenteProps) => {
     
     // Si no hubo error, cerramos el modal
     if (!error && success !== false) { 
-        handleClose();
+        onClose();
     }
   };
 
   const handleClose = () => {
     setFormData(initialForm);
-    onClose(); // 3. IMPORTANTE: Llamar a la función del padre para cerrar el modal
+    onClose();
+     // 3. IMPORTANTE: Llamar a la función del padre para cerrar el modal
   };
 
   return (
